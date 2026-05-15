@@ -11,29 +11,52 @@ export const metadata: Metadata = {
   },
 };
 
+/* ── Logo mark (SVG, цвета из лого) ── */
+function LogoMark({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+      <polygon points="10,15 55,50 10,85" fill="#1c2028" />
+      <polygon points="38,15 83,50 38,85" fill="#6bbfb5" opacity="0.85" />
+    </svg>
+  );
+}
+
+function Logo() {
+  return (
+    <div className="flex items-center gap-2">
+      <LogoMark size={26} />
+      <span className="font-bold text-xl tracking-tight" style={{ color: "var(--dark)" }}>
+        lokait
+      </span>
+    </div>
+  );
+}
+
 function CtaButton({ label, href, variant = "primary" }: { label: string; href: string; variant?: "primary" | "ghost" }) {
   if (variant === "ghost") {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ color: "var(--blue)", fontWeight: 500, fontSize: 15 }}
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer"
+        className="font-medium text-sm"
+        style={{ color: "var(--teal-dark)" }}>
         {label} →
       </a>
     );
   }
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
-      style={{ background: "var(--blue)", color: "#fff" }}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer"
+      className="inline-block text-sm font-semibold px-6 py-3 rounded-lg transition-opacity hover:opacity-90"
+      style={{ background: "var(--dark)", color: "#fff" }}>
       {label}
     </a>
+  );
+}
+
+function TealBadge({ label }: { label: string }) {
+  return (
+    <span className="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-5"
+      style={{ backgroundColor: "var(--teal-light)", color: "var(--teal-dark)" }}>
+      {label}
+    </span>
   );
 }
 
@@ -58,6 +81,13 @@ const cases = [
     title: "Снабжение без потерь",
     text: "Заявка → согласование → склад → Google Sheets. Ни одна строчка не теряется.",
   },
+];
+
+const painPoints = [
+  { icon: "😤", text: "Мастер забыл зафиксировать царапину — теперь спор с клиентом" },
+  { icon: "⏳", text: "Менеджер полчаса копирует сообщения из Авито в таблицу вручную" },
+  { icon: "📭", text: "Заявка на запчасти потерялась в чате — никто не виноват, но не приехали" },
+  { icon: "🌙", text: "Ты сам сидишь вечером и листаешь переписки, чтобы понять что сделали за день" },
 ];
 
 const faq = [
@@ -86,9 +116,7 @@ export default function LandingPage() {
       {/* Nav */}
       <header style={{ backgroundColor: "var(--white)", borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="font-bold text-lg tracking-tight" style={{ color: "var(--ink)" }}>
-            Lokait
-          </span>
+          <Logo />
           <CtaButton label="Написать в Telegram" href="https://t.me/lokaitmanager" />
         </div>
       </header>
@@ -97,23 +125,16 @@ export default function LandingPage() {
       <section style={{ backgroundColor: "var(--white)", borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="max-w-2xl">
-            <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-6"
-              style={{ backgroundColor: "var(--blue-light)", color: "var(--blue)" }}
-            >
-              Автоматизация для автобизнеса
-            </span>
-            <h1
-              className="font-extrabold leading-tight mb-6"
-              style={{ fontSize: "clamp(28px, 4vw, 48px)", color: "var(--ink)", letterSpacing: "-0.02em" }}
-            >
+            <TealBadge label="Автоматизация для автобизнеса" />
+            <h1 className="font-extrabold leading-tight mb-6"
+              style={{ fontSize: "clamp(28px, 4vw, 48px)", color: "var(--dark)", letterSpacing: "-0.02em" }}>
               Твоя команда перестанет<br />гонять бумажки — начнёт работать
             </h1>
             <p className="text-lg mb-8" style={{ color: "var(--ink-muted)", lineHeight: 1.7, maxWidth: 520 }}>
               Telegram-боты берут на себя приёмку, заявки и переписки.
               Сотрудники делают то, за что им платят, а не то, что давно надоело.
             </p>
-            <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-5 flex-wrap">
               <CtaButton label="Забрать рутину у команды" href="https://t.me/lokaitmanager" />
               <CtaButton label="Смотреть кейсы" href="https://t.me/lokaitbots" variant="ghost" />
             </div>
@@ -123,56 +144,41 @@ export default function LandingPage() {
 
       {/* Pain */}
       <section className="max-w-5xl mx-auto px-6 py-16">
-        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
-          Звучит знакомо?
-        </p>
-        <h2 className="font-bold mb-10" style={{ fontSize: 26, color: "var(--ink)" }}>
+        <TealBadge label="Звучит знакомо?" />
+        <h2 className="font-bold mb-8" style={{ fontSize: 26, color: "var(--dark)" }}>
           Каждый день одно и то же
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            { icon: "😤", text: "Мастер забыл зафиксировать царапину — теперь спор с клиентом" },
-            { icon: "⏳", text: "Менеджер полчаса копирует сообщения из Авито в таблицу вручную" },
-            { icon: "📭", text: "Заявка на запчасти потерялась в чате — никто не виноват, но не приехали" },
-            { icon: "🌙", text: "Ты сам сидишь вечером и листаешь переписки, чтобы понять что сделали за день" },
-          ].map(({ icon, text }) => (
-            <div
-              key={text}
-              className="flex gap-4 p-5 rounded-xl card-shadow"
-              style={{ backgroundColor: "var(--card-bg)", border: "1px solid var(--border)" }}
-            >
+          {painPoints.map(({ icon, text }) => (
+            <div key={text} className="flex gap-4 p-5 rounded-xl card-shadow"
+              style={{ backgroundColor: "var(--card-bg)", border: "1px solid var(--border)" }}>
               <span className="text-2xl flex-shrink-0">{icon}</span>
               <p className="text-sm" style={{ color: "var(--ink-muted)", lineHeight: 1.6 }}>{text}</p>
             </div>
           ))}
         </div>
-        <p className="mt-6 text-sm font-medium" style={{ color: "var(--ink)" }}>
+        <p className="mt-6 text-sm font-medium" style={{ color: "var(--dark)" }}>
           Это не разгильдяйство. Это процессы, которые никто не настроил.
         </p>
       </section>
 
-      {/* How it works */}
+      {/* Cases */}
       <section style={{ backgroundColor: "var(--white)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-5xl mx-auto px-6 py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
-            Как это устроено
-          </p>
-          <h2 className="font-bold mb-4" style={{ fontSize: 26, color: "var(--ink)" }}>
+          <TealBadge label="Как это устроено" />
+          <h2 className="font-bold mb-4" style={{ fontSize: 26, color: "var(--dark)" }}>
             Один процесс — один бот
           </h2>
           <p className="text-base mb-10" style={{ color: "var(--ink-muted)", maxWidth: 520, lineHeight: 1.7 }}>
             Разбираем самый болезненный процесс и делаем под него Telegram-бота.
-            Сотрудники работают в Telegram — где уже сидят. Никакого нового приложения, логинов, инструкций.
+            Сотрудники работают в Telegram — где уже сидят.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {cases.map(({ icon, title, text }) => (
-              <div
-                key={title}
-                className="p-6 rounded-xl card-shadow-md"
-                style={{ backgroundColor: "var(--card-bg)", border: "1px solid var(--border)" }}
-              >
+              <div key={title} className="p-6 rounded-xl card-shadow-md"
+                style={{ backgroundColor: "var(--card-bg)", border: "1px solid var(--border)" }}>
                 <span className="text-3xl block mb-4">{icon}</span>
-                <p className="font-semibold text-sm mb-2" style={{ color: "var(--ink)" }}>{title}</p>
+                <p className="font-semibold text-sm mb-2" style={{ color: "var(--dark)" }}>{title}</p>
                 <p className="text-sm" style={{ color: "var(--ink-muted)", lineHeight: 1.6 }}>{text}</p>
               </div>
             ))}
@@ -182,15 +188,11 @@ export default function LandingPage() {
 
       {/* Anxiety */}
       <section className="max-w-5xl mx-auto px-6 py-16">
-        <div
-          className="rounded-2xl p-8 flex flex-col sm:flex-row gap-8 items-start"
-          style={{ backgroundColor: "var(--blue-light)", border: "1px solid #bfdbfe" }}
-        >
+        <div className="rounded-2xl p-8 flex flex-col sm:flex-row gap-8 items-start"
+          style={{ backgroundColor: "var(--teal-light)", border: "1px solid #b2deda" }}>
           <div className="flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
-              Насчёт внедрения
-            </p>
-            <h2 className="font-bold mb-4" style={{ fontSize: 22, color: "var(--ink)" }}>
+            <TealBadge label="Насчёт внедрения" />
+            <h2 className="font-bold mb-4" style={{ fontSize: 22, color: "var(--dark)" }}>
               «А вдруг это сложно и долго?»
             </h2>
             <p className="text-sm mb-3" style={{ color: "var(--ink-muted)", lineHeight: 1.7 }}>
@@ -203,7 +205,7 @@ export default function LandingPage() {
               Если через неделю что-то работает не так — исправляем.
             </p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 pt-1">
             <CtaButton label="Обсудить мой процесс" href="https://t.me/lokaitmanager" />
           </div>
         </div>
@@ -212,17 +214,13 @@ export default function LandingPage() {
       {/* FAQ */}
       <section style={{ backgroundColor: "var(--white)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-3xl mx-auto px-6 py-16">
-          <h2 className="font-bold mb-10 text-center" style={{ fontSize: 26, color: "var(--ink)" }}>
+          <h2 className="font-bold mb-10 text-center" style={{ fontSize: 26, color: "var(--dark)" }}>
             Частые вопросы
           </h2>
-          <div className="space-y-0">
+          <div>
             {faq.map(({ q, a }) => (
-              <div
-                key={q}
-                className="py-5"
-                style={{ borderBottom: "1px solid var(--border)" }}
-              >
-                <p className="font-semibold text-sm mb-2" style={{ color: "var(--ink)" }}>{q}</p>
+              <div key={q} className="py-5" style={{ borderBottom: "1px solid var(--border)" }}>
+                <p className="font-semibold text-sm mb-2" style={{ color: "var(--dark)" }}>{q}</p>
                 <p className="text-sm" style={{ color: "var(--ink-muted)", lineHeight: 1.7 }}>{a}</p>
               </div>
             ))}
@@ -232,7 +230,9 @@ export default function LandingPage() {
 
       {/* Final CTA */}
       <section className="max-w-5xl mx-auto px-6 py-20 text-center">
-        <h2 className="font-bold mb-4" style={{ fontSize: 28, color: "var(--ink)" }}>
+        {/* Teal accent line */}
+        <div className="mx-auto mb-8 rounded-full" style={{ width: 48, height: 4, background: "var(--teal)" }} />
+        <h2 className="font-bold mb-4" style={{ fontSize: 28, color: "var(--dark)" }}>
           Покажи один процесс, который раздражает больше всего
         </h2>
         <p className="text-base mb-8 mx-auto" style={{ color: "var(--ink-muted)", maxWidth: 480, lineHeight: 1.7 }}>
@@ -245,8 +245,10 @@ export default function LandingPage() {
       {/* Footer */}
       <footer style={{ borderTop: "1px solid var(--border)", backgroundColor: "var(--white)" }}>
         <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between flex-wrap gap-4">
-          <span className="font-bold text-sm" style={{ color: "var(--ink)" }}>Lokait</span>
-          <span className="text-xs" style={{ color: "var(--ink-light)" }}>Автоматизация для автобизнеса · @lokaitbots</span>
+          <Logo />
+          <span className="text-xs" style={{ color: "var(--ink-light)" }}>
+            Автоматизация для автобизнеса · @lokaitbots
+          </span>
         </div>
       </footer>
 

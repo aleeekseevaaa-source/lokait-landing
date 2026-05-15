@@ -4,16 +4,20 @@
 * { box-sizing: border-box; }
 
 :root {
-  --white:      #ffffff;
-  --bg:         #f8fafc;
-  --ink:        #111827;
-  --ink-muted:  #6b7280;
-  --ink-light:  #9ca3af;
-  --blue:       #2563eb;
-  --blue-dark:  #1d4ed8;
-  --blue-light: #eff6ff;
-  --border:     #e5e7eb;
-  --card-bg:    #ffffff;
+  /* Brand colors from logo */
+  --dark:        #1c2028;   /* graphite — основной цвет логотипа */
+  --teal:        #6bbfb5;   /* мятный тил — акцент логотипа */
+  --teal-dark:   #4fa59b;
+  --teal-light:  #edf8f7;
+
+  /* UI */
+  --white:       #ffffff;
+  --bg:          #f7f9fb;
+  --ink:         #1c2028;
+  --ink-muted:   #5a6474;
+  --ink-light:   #9aa3af;
+  --border:      #e2e8f0;
+  --card-bg:     #ffffff;
 }
 
 body {
@@ -23,5 +27,5 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.card-shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04); }
-.card-shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.card-shadow    { box-shadow: 0 1px 3px rgba(28,32,40,0.07), 0 1px 2px rgba(28,32,40,0.04); }
+.card-shadow-md { box-shadow: 0 4px 16px rgba(28,32,40,0.08); }
